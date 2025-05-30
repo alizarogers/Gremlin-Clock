@@ -1,9 +1,19 @@
+/*
+//   Sets DS3231 RTC time. Enter the correct time, to the second.
+//   This only has to be ran when the RTC loses power.
+//   Run by:
+//    make
+//    ./initializeClock <hour> <minute> <second> <"AM" or "PM">
+*/
+
+
 #include <bitset>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-void set_clock(int hour, int minute, int second, bool PM)
+vector<string> get_bitstrings(int hour, int minute, int second, bool PM)
 {
    // address 00h:  bit 0-3 seconds, bit 4-6 10 seconds, bit 7 = 0
    string secondTens = bitset<3>(second / 10).to_string();
@@ -21,11 +31,16 @@ void set_clock(int hour, int minute, int second, bool PM)
    string AMPM = PM ? "1" : "0";
    string binaryHours = "01" + AMPM + hourTens + hourOnes;
 
-   
+   return vector<string>{binaryHours, binaryMinutes, binarySeconds};
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-   set_clock(1, 2, 59, false);
+   bool isPM = ((string(argv[4]) == "PM") or (string(argv[4]) == "pm"));
+   vector<string> bitstrings;
+
+   bitstrings = get_bitstrings(stoi(argv[1]), stoi(argv[2]), stoi(argv[3]), isPM);
+
+
    return 0;
 }
