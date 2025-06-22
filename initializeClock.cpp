@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
 
    bitstrings = get_bitstrings(stoi(argv[1]), stoi(argv[2]), stoi(argv[3]), isPM);
 
+   some_function_for_setting the time(bitstrings)
+
 
    return 0;
 }
